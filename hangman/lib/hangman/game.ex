@@ -21,8 +21,12 @@ defmodule Hangman.Game do
     game
   end
 
-  def make_move(game, guess) do
-    accept_move(game, guess, MapSet.member?(game.used, guess))
+  def make_move(game, guess) when is_binary(guess) do
+    accept_move(game, String.downcase(guess), MapSet.member?(game.used, guess))
+  end
+
+  def make_move(game, _guess) do
+    {:error, "Guess must be a binary"}
   end
 
   def tally(game) do
